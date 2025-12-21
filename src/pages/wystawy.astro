@@ -1,0 +1,245 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const wszystkieWystawy = (await getCollection('wystawy'))
+  .sort((a, b) => b.data.rok - a.data.rok);
+
+const lata = [...new Set(wszystkieWystawy.map(w => w.data.rok))].sort().reverse();
+const typy = ['indywidualna', 'zbiorowa'];
+---
+
+<Layout title="Wystawy">
+  <main class="strona-wystaw">
+    <header class="strona-header">
+      <h1>Wystawy</h1>
+      <p class="opis">Przegląd wystaw indywidualnych i zbiorowych.</p>
+    </header>
+
+    <div class="filtry">
+      <select id="filtr-rok-wystaw" class="filtr-select">
+        <option value="">Wszystkie lata</option>
+        {lata.map(rok => <option value={rok}>{rok}</option>)}
+      </select>
+
+      <select id="filtr-typ-wystaw" class="filtr-select">
+        <option value="">Wszystkie typy</option>
+        {typy.map(typ => (
+          <option value={typ}>{typ}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="lista-wystaw">
+      {wszystkieWystawy.map((wystawa) => (
+        <article 
+          class="wystawa-card" 
+          data-rok={wystawa.data.rok}
+          data-typ={wystawa.data.typ}
+        >
+          <a href={`/wystawy/${wystawa.id}`} class="wystawa-link">
+            {wystawa.data.miniatura && (
+              <div class="wystawa-miniatura">
+                <Image 
+                  src={wystawa.data.miniatura}
+                  alt={wystawa.data.tytul}
+                  width={600}
+                  class="wystawa-img"
+                />
+              </div>
+            )}
+
+            <div class="wystawa-info">
+              <span class="wystawa-rok">{wystawa.data.rok} · {wystawa.data.typ}</span>
+              <h2 class="wystawa-tytul">{wystawa.data.tytul}</h2>
+
+              {wystawa.data.opis && (
+                <p class="wystawa-opis-krotki">{wystawa.data.opis}</p>
+              )}
+
+              <span class="wystawa-czytaj">Czytaj więcej →</span>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const filtrRok = document.getElementById('filtr-rok-wystaw');
+  const filtrTyp = document.getElementById('filtr-typ-wystaw');
+
+  function filtruj() {
+    const rok = filtrRok?.value || '';
+    const typ = filtrTyp?.value || '';
+
+    document.querySelectorAll('.wystawa-card').forEach((item) => {
+      const el = item as HTMLElement;
+      const pokazRok = !rok || el.dataset.rok === rok;
+      const pokazTyp = !typ || el.dataset.typ === typ;
+      el.style.display = (pokazRok && pokazTyp) ? 'block' : 'none';
+    });
+  }
+
+  filtrRok?.addEventListener('change', filtruj);
+  filtrTyp?.addEventListener('change', filtruj);
+</script>
+
+<style>
+  .strona-wystaw {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* === HEADER === */
+  .strona-header {
+    text-align: center;
+    padding: 6rem 0 3rem;
+  }
+
+  .strona-header h1 {
+    margin-bottom: 1rem;
+  }
+
+  .opis {
+    font-size: 1.125rem;
+    opacity: 0.6;
+    font-weight: 300;
+  }
+
+  /* === FILTRY === */
+  .filtry {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 2rem 0 4rem;
+  }
+
+  .filtr-select {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.875rem 2rem;
+    border: 1px solid #000;
+    background: #FDFCFA;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .filtr-select:hover {
+    background: #F5F3F0;
+  }
+
+  /* === LISTA WYSTAW === */
+  .lista-wystaw {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    padding-bottom: 6rem;
+  }
+
+  .wystawa-card {
+    display: block;
+  }
+
+  .wystawa-link {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    text-decoration: none;
+    color: #000;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .wystawa-link {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  /* === MINIATURA === */
+  .wystawa-miniatura {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wystawa-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .wystawa-link:hover .wystawa-img {
+    transform: scale(1.05);
+  }
+
+  /* === INFO === */
+  .wystawa-info {
+    padding: 1rem 0;
+  }
+
+  .wystawa-rok {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+  }
+
+  .wystawa-tytul {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    border-bottom: none;
+    display: block;
+  }
+
+  .wystawa-opis-krotki {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem 0;
+    opacity: 0.8;
+    font-weight: 300;
+  }
+
+  .wystawa-czytaj {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: opacity 0.3s ease;
+  }
+
+  .wystawa-link:hover .wystawa-czytaj {
+    opacity: 0.6;
+  }
+
+  @media (max-width: 640px) {
+    .strona-header {
+      padding: 4rem 0 2rem;
+    }
+    
+    .lista-wystaw {
+      gap: 3rem;
+    }
+    
+    .wystawa-tytul {
+      font-size: 1.5rem;
+    }
+  }
+</style>

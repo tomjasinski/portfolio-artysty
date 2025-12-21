@@ -1,0 +1,143 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="nawigacja">
+    <a href="/" class="logo">Jerzy Jasiński</a>
+    <div class="menu">
+      <a href="/o-mnie">O mnie</a>
+      <a href="/obrazy">Obrazy</a>
+      <a href="/wystawy">Wystawy</a>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer class="stopka">
+    <p>&copy; 2025 Jerzy Jasiński. Wszelkie prawa zastrzeżone.</p>
+  </footer>
+</body>
+</html>
+
+<style is:global>
+  /* === RESET I PODSTAWY === */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #FDFCFA; /* złamana biel */
+    color: #000000;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* === TYPOGRAFIA === */
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #000; /* akcent linia */
+    display: inline-block;
+  }
+
+  p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  /* === NAWIGACJA === */
+  .nawigacja {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 4rem;
+    border-bottom: 1px solid #000;
+    background: #FDFCFA;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #000;
+    letter-spacing: -0.01em;
+  }
+
+  .menu {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .menu a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #000;
+    font-weight: 400;
+    position: relative;
+    transition: opacity 0.3s ease;
+  }
+
+  .menu a:hover {
+    opacity: 0.6;
+  }
+
+  /* === STOPKA === */
+  .stopka {
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-top: 6rem;
+    border-top: 1px solid #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+  }
+
+  /* === RESPONSYWNOŚĆ === */
+  @media (max-width: 768px) {
+    .nawigacja {
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .menu {
+      gap: 2rem;
+    }
+  }
+</style>

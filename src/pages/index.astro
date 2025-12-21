@@ -1,0 +1,202 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+// podmień ścieżkę do zdjęcia profilowego
+import profil from '../assets/obrazy/obraz-23.jpg';
+
+const linkiTeksty = [
+  {
+    label: 'Esej o kolorze',
+    href: '/teksty/esej-o-kolorze',
+  },
+  {
+    label: 'Notatki z pracowni',
+    href: '/teksty/notatki-z-pracowni',
+  },
+];
+---
+
+<Layout title="Jerzy Jasiński">
+  <main class="home">
+    <section class="intro">
+      <p class="intro-tagline">Malarstwo abstrakcyjne · Obrazy na płótnie</p>
+      <h1>Jerzy Jasiński</h1>
+      <p class="intro-lead">
+        Artysta z Mazowsza.
+      </p>
+    </section>
+
+    <section class="o-mnie" id="o-mnie">
+      <div class="o-mnie-layout">
+        <div class="o-mnie-foto">
+          <Image
+            src={profil}
+            alt="Jerzy Jasiński – portret"
+            width={520}
+            class="o-mnie-img"
+          />
+        </div>
+        <div class="o-mnie-tekst">
+          <h2>O mnie</h2>
+          <p>
+            Ukończył Państwowe Liceum Sztuk Plastycznych w Nałęczowie. W latach 1983–1988 studiował na Wydziale Malarstwa w Akademii Sztuk Pięknych w Warszawie. Dyplom otrzymał w roku 1988 w pracowni prof. Rajmunda Ziemskiego. Zajmuje się malarstwem sztalugowym, rysunkiem i technikami ściennymi. Wykonał cykle prac: „W ogrodzie”, „Wypędzeni z raju”, „Próba podziału”, „Obrazy XXI wieku”, „Poszukiwanie muzyki”. Uczestniczył w kilkudziesięciu wystawach indywidualnych i zbiorowych.
+          </p>
+
+          <div class="o-mnie-kontakt">
+            <h3>Kontakt</h3>
+            <p>
+              e-mail: <a href="mailto:jwjasinski@wp.pl">jwjasinski@wp.pl</a><br />
+              tel.: <a href="tel:+48697159752">+48 697 159 752</a>
+            </p>
+            <p>
+              Facebook: <a href="https://www.facebook.com/profile.php?id=100089157185796" target="_blank" rel="noopener noreferrer">
+                Obserwuj mnie na Facebooku
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .home {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* === INTRO (top) === */
+  .intro {
+    padding: 6rem 0 4rem;
+  }
+
+  .intro-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 1rem;
+  }
+
+  .intro h1 {
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-lead {
+    max-width: 560px;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    opacity: 0.75;
+  }
+
+  /* === O MNIE === */
+  .o-mnie {
+    padding: 2rem 0;
+    border-top: 1px solid #000;
+  }
+
+  .o-mnie-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+    gap: 4rem;
+    align-items: start;
+    padding-top: 3rem;
+  }
+
+  @media (max-width: 900px) {
+    .o-mnie-layout {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .o-mnie-foto {
+    position: relative;
+  }
+
+  .o-mnie-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .o-mnie-tekst h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .o-mnie-tekst p {
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .o-mnie-kontakt {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #000;
+  }
+
+  .o-mnie-kontakt h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .o-mnie-kontakt a {
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .o-mnie-kontakt a:hover {
+    border-bottom-color: #000;
+  }
+
+  .o-mnie-linki-teksty {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #000;
+  }
+
+  .o-mnie-linki-teksty h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .o-mnie-linki-teksty ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .o-mnie-linki-teksty li + li {
+    margin-top: 0.5rem;
+  }
+
+  .o-mnie-linki-teksty a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #000;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+  }
+
+  .o-mnie-linki-teksty a:hover {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 640px) {
+    .home {
+      padding: 0 1.5rem 4rem;
+    }
+
+    .intro {
+      padding: 4rem 0 3rem;
+    }
+  }
+</style>

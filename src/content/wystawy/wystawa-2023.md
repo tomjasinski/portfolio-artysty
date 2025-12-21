@@ -1,0 +1,9 @@
+---
+tytul: "Galeria DAP w Warszawie"
+rok: 2023
+typ: "zbiorowa"
+opis: "SALON 2023 - Wystawa Sekcji Malarstwa 2023"
+
+---
+
+2023 wrzesień - Galeria DAP w Warszawie - SALON 2023 - Wystawa Sekcji Malarstwa 2023                                                                                                                                                                                                                

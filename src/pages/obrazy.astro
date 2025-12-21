@@ -1,0 +1,287 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const wszystkieObrazy = await getCollection('obrazy');
+const lata = [...new Set(wszystkieObrazy.map(o => o.data.rok))].sort().reverse();
+const kategorie = [...new Set(wszystkieObrazy.map(o => o.data.kategoria))];
+
+// Przygotuj dane dla PhotoSwipe
+const obrazyData = wszystkieObrazy.map(obraz => ({
+  ...obraz.data,
+  id: obraz.id,
+  width: obraz.data.obraz.width,
+  height: obraz.data.obraz.height,
+  src: obraz.data.obraz.src,
+}));
+---
+
+<Layout title="Obrazy - Galeria">
+  <main class="strona-obrazow">
+    <header class="strona-header">
+      <h1>Galeria obrazów</h1>
+      <p class="opis">Kolekcja prac z lat {lata[lata.length - 1]}–{lata[0]}</p>
+    </header>
+
+    <div class="filtry">
+      <select id="filtr-rok" class="filtr-select">
+        <option value="">Wszystkie lata</option>
+        {lata.map(rok => <option value={rok}>{rok}</option>)}
+      </select>
+      <select id="filtr-kategoria" class="filtr-select">
+        <option value="">Wszystkie kategorie</option>
+        {kategorie.map(kat => <option value={kat}>{kat}</option>)}
+      </select>
+    </div>
+
+    <div class="galeria-obrazow" id="galeria-obrazow">
+      {obrazyData.map((obraz) => (
+        <a 
+          href={obraz.src}
+          class="galeria-item"
+          data-pswp-width={obraz.width}
+          data-pswp-height={obraz.height}
+          data-rok={obraz.rok}
+          data-kategoria={obraz.kategoria}
+          data-technika={obraz.technika}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div class="obraz-wrapper">
+            <Image 
+              src={obraz.obraz}
+              alt={obraz.tytul}
+              width={400}
+              class="galeria-img"
+            />
+          </div>
+          <div class="obraz-meta">
+            <h3 class="obraz-tytul">{obraz.tytul}</h3>
+            <p class="obraz-info">{obraz.rok} · {obraz.wymiary}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import PhotoSwipe from 'photoswipe';
+  import 'photoswipe/style.css';
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#galeria-obrazow',
+    children: 'a',
+    pswpModule: PhotoSwipe,
+    showHideAnimationType: 'fade',
+    zoomAnimationDuration: 400,
+    bgOpacity: 0.95,
+    spacing: 0.1,
+  });
+  
+  // Dodaj informacje o obrazie w lightbox
+  lightbox.on('uiRegister', function() {
+    lightbox.pswp.ui.registerElement({
+      name: 'caption-custom',
+      order: 9,
+      isButton: false,
+      appendTo: 'root',
+      html: '',
+      onInit: (el, pswp) => {
+        lightbox.pswp.on('change', () => {
+          const currSlideElement = lightbox.pswp.currSlide.data.element;
+          const caption = currSlideElement.querySelector('.obraz-meta');
+          if (caption) {
+            el.innerHTML = caption.innerHTML;
+          }
+        });
+      }
+    });
+  });
+  
+  lightbox.init();
+
+  // Filtrowanie
+  const filtrRok = document.getElementById('filtr-rok') as HTMLSelectElement;
+  const filtrKat = document.getElementById('filtr-kategoria') as HTMLSelectElement;
+  
+  function filtruj() {
+    const rok = filtrRok?.value || '';
+    const kat = filtrKat?.value || '';
+    
+    document.querySelectorAll('.galeria-item').forEach((item) => {
+      const element = item as HTMLElement;
+      const pokazRok = !rok || element.dataset.rok === rok;
+      const pokazKat = !kat || element.dataset.kategoria === kat;
+      element.style.display = (pokazRok && pokazKat) ? 'block' : 'none';
+    });
+  }
+  
+  filtrRok?.addEventListener('change', filtruj);
+  filtrKat?.addEventListener('change', filtruj);
+</script>
+
+<style>
+  .strona-obrazow {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* === HEADER === */
+  .strona-header {
+    text-align: center;
+    padding: 6rem 0 3rem;
+  }
+
+  .strona-header h1 {
+    margin-bottom: 1rem;
+  }
+
+  .opis {
+    font-size: 1.125rem;
+    opacity: 0.6;
+    font-weight: 300;
+  }
+
+  /* === FILTRY === */
+  .filtry {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 2rem 0 4rem;
+  }
+
+  .filtr-select {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.875rem 2rem;
+    border: 1px solid #000;
+    background: #FDFCFA;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .filtr-select:hover {
+    background: #F5F3F0;
+  }
+
+  .filtr-select:focus {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+  }
+
+  /* === GALERIA === */
+  .galeria-obrazow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4rem 3rem;
+    padding-bottom: 6rem;
+  }
+
+  @media (max-width: 1400px) {
+    .galeria-obrazow {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .galeria-obrazow {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem 2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .galeria-obrazow {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    
+    .strona-header {
+      padding: 4rem 0 2rem;
+    }
+    
+    .filtry {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 1.5rem 0 3rem;
+    }
+  }
+
+  /* === ITEM === */
+  .galeria-item {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    cursor: zoom-in;
+  }
+
+  .obraz-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+
+  .galeria-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .galeria-item:hover .galeria-img {
+    transform: scale(1.05);
+  }
+
+  /* === META === */
+  .obraz-meta {
+    padding-top: 1rem;
+    border-top: 1px solid #000;
+  }
+
+  .obraz-tytul {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.01em;
+  }
+
+  .obraz-info {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    margin: 0;
+    opacity: 0.65;
+    font-weight: 300;
+  }
+
+  /* === PHOTOSWIPE CUSTOM === */
+  :global(.pswp__caption-custom) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: #fff;
+    text-align: center;
+  }
+
+  :global(.pswp__caption-custom .obraz-tytul) {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.pswp__caption-custom .obraz-info) {
+    color: rgba(255,255,255,0.8);
+    font-size: 1rem;
+  }
+</style>

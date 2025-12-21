@@ -1,0 +1,9 @@
+---
+tytul: "Galeria Domu Artysty Plastyka w Warszawie"
+rok: 2013
+typ: "zbiorowa"
+opis: "AKTUALNOŚCI"
+
+---
+
+2013 lipiec/sierpień – Galeria Domu Artysty Plastyka w Warszawie – AKTUALNOŚCI                                                 

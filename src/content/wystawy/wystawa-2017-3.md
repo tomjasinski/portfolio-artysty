@@ -1,0 +1,9 @@
+---
+tytul: "Galeria Domu Artysty Plastyka w Warszawie"
+rok: 2017
+typ: "zbiorowa"
+opis: "„WIZJE”"
+
+---
+
+2017 październik - Galeria Domu Artysty Plastyka w Warszawie – „WIZJE”                                                                                                                                            

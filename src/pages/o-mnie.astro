@@ -1,0 +1,112 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="O mnie – Imię Nazwisko">
+  <main class="o-mnie-page">
+    <section class="o-mnie-cytat">
+      <header class="o-mnie-header">
+        <h1>O mnie</h1>
+      </header>
+
+      <div class="o-mnie-blok-cytatu">
+        <blockquote class="o-mnie-quote">
+          <p>
+            „Moim marzeniem jest dorównać twórcom, mistrzom muzyki, którzy w sposób doskonały przetwarzają swoje emocje na abstrakcyjne dźwięki. Jednak w malarstwie, ze względu na siłę związku tej sztuki z rzeczywistością, jest to trudne do osiągnięcia. Moje wcześniejsze prace abstrakcyjne są poszukiwaniem rytmu w przyrodzie. Pejzaż przemawia do mnie melodią światła, wibracją kolorów i form. Włączone zostają wszystkie zmysły: odgłosy natury, śpiew ptaków zawieszony w powietrzu, zapach ziół, pachnąca przyroda, która zaskakuje, przeobraża się i zmienia. Tworzy układy kolorystyczne, zmienia formy, nadaje im specyficzny rytm. Dostrzegam, wychwytuję ten rytm i chciałbym zbudować obraz. Rytm – obraz przyrody i rytm – obraz ludzi w jej przestrzeni.
+          </p>
+          <p>
+            Moje malarstwo to poetyckie wizje, które w abstrakcyjnej formie, pełnej rytmiki, bogatej faktury, kontrastów barwnych emanują melancholijną zadumą nad światem, będąc odzwierciedleniem własnych przeżyć i uczuć.
+          </p>
+          <p>
+            Próbuję wychwycić z natury interesujące sytuacje i zjawiska. Komponuję układy rytmiczne postaci ludzkich, drgania i zawirowania powietrza wokół nich. Hiperbolizuję wybrane szczegóły przyrody; powiewy wiatru w konarach drzew, falujące trawy i zboża - układam własną melodię, która wybrzmiewa z moich obrazów.”
+          </p>
+        </blockquote>
+        <p class="o-mnie-podpis">
+          Jerzy Jasiński
+        </p>
+      </div>
+
+      <div class="o-mnie-dopelnienie">
+        <p>
+          
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .o-mnie-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  .o-mnie-header {
+    text-align: center;
+    padding: 6rem 0 3rem;
+  }
+
+  .o-mnie-header h1 {
+    margin-bottom: 1rem;
+  }
+
+  .o-mnie-lead {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+    opacity: 0.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .o-mnie-blok-cytatu {
+    padding: 3rem 0 2rem;
+    border-top: 1px solid #000;
+  }
+
+  .o-mnie-quote {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .o-mnie-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .o-mnie-podpis {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .o-mnie-dopelnienie {
+    padding: 3rem 0 0;
+    max-width: 640px;
+  }
+
+  .o-mnie-dopelnienie p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    opacity: 0.85;
+  }
+
+  @media (max-width: 640px) {
+    .o-mnie-page {
+      padding: 0 1.5rem 4rem;
+    }
+
+    .o-mnie-header {
+      padding: 4rem 0 2rem;
+    }
+
+    .o-mnie-quote p {
+      font-size: 1.4rem;
+    }
+  }
+</style>

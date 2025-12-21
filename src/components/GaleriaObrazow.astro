@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const wszystkieObrazy = await getCollection('obrazy');
+const lata = [...new Set(wszystkieObrazy.map(o => o.data.rok))].sort().reverse();
+const kategorie = [...new Set(wszystkieObrazy.map(o => o.data.kategoria))];
+---
+
+<link rel="stylesheet" href="/node_modules/photoswipe/dist/photoswipe.css">
+
+<div class="filtry">
+  <select id="filtr-rok" class="filtr-select">
+    <option value="">Wszystkie lata</option>
+    {lata.map(rok => <option value={rok}>{rok}</option>)}
+  </select>
+  <select id="filtr-kategoria" class="filtr-select">
+    <option value="">Wszystkie kategorie</option>
+    {kategorie.map(kat => <option value={kat}>{kat}</option>)}
+  </select>
+</div>
+
+<div class="galeria-obrazow" id="galeria">
+  {wszystkieObrazy.map((obraz, idx) => {
+    const img = obraz.data.obraz;
+    return (
+      <a 
+        href={img.src}
+        class="galeria-item"
+        data-pswp-width={img.width}
+        data-pswp-height={img.height}
+        data-rok={obraz.data.rok}
+        data-kategoria={obraz.data.kategoria}
+        data-technika={obraz.data.technika}
+        target="_blank"
+      >
+        <Image 
+          src={img} 
+          alt={obraz.data.tytul}
+          width={400}
+          height={300}
+          class="galeria-img"
+        />
+        <div class="obraz-meta">
+          <h3 class="obraz-tytul">{obraz.data.tytul}</h3>
+          <p class="obraz-info">{obraz.data.rok} | {obraz.data.wymiary}</p>
+        </div>
+      </a>
+    );
+  })}
+</div>
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'photoswipe/style.css';
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#galeria',
+    children: 'a',
+    pswpModule: () => import('photoswipe'),
+    // Elegancka animacja fade + zoom
+    showHideAnimationType: 'fade',
+    zoomAnimationDuration: 400,
+  });
+  
+  lightbox.init();
+
+  // Logika filtrowania
+  const filtrRok = document.getElementById('filtr-rok');
+  const filtrKat = document.getElementById('filtr-kategoria');
+  
+  function filtruj() {
+    const rok = filtrRok.value;
+    const kat = filtrKat.value;
+    
+    document.querySelectorAll('.galeria-item').forEach(item => {
+      const pokazRok = !rok || item.dataset.rok === rok;
+      const pokazKat = !kat || item.dataset.kategoria === kat;
+      item.style.display = (pokazRok && pokazKat) ? 'block' : 'none';
+    });
+  }
+  
+  filtrRok?.addEventListener('change', filtruj);
+  filtrKat?.addEventListener('change', filtruj);
+</script>
+
+<style>
+  /* === KOLORY === */
+  :root {
+    --kolor-tlo: #FDFCFA; /* złamana biel / delikatny beż */
+    --kolor-tekst: #000000; /* czysty czarny */
+    --kolor-akcent: #000000; /* czarna linia */
+  }
+
+  /* === GALERIA GRID === */
+  .galeria-obrazow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4rem;
+    padding: 4rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1200px) {
+    .galeria-obrazow {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .galeria-obrazow {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      padding: 2rem 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .galeria-obrazow {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* === ITEM GALERII === */
+  .galeria-item {
+    display: block;
+    text-decoration: none;
+    color: var(--kolor-tekst);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .galeria-item:hover {
+    transform: translateY(-8px);
+  }
+
+  .galeria-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* === META OBRAZU === */
+  .obraz-meta {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--kolor-akcent); /* minimalistyczna linia */
+  }
+
+  .obraz-tytul {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.01em;
+  }
+
+  .obraz-info {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    margin: 0;
+    color: var(--kolor-tekst);
+    opacity: 0.7;
+  }
+
+  /* === FILTRY === */
+  .filtry {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 3rem 2rem 1rem;
+    border-bottom: 1px solid var(--kolor-akcent);
+    margin-bottom: 2rem;
+  }
+
+  .filtr-select {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--kolor-akcent);
+    background: var(--kolor-tlo);
+    color: var(--kolor-tekst);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .filtr-select:hover {
+    background: #F5F3F0;
+  }
+</style>
