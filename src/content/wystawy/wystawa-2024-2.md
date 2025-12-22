@@ -1,9 +1,0 @@
----
-tytul: "Galeria DAP w Warszawie"
-rok: 2024
-typ: "zbiorowa"
-opis: "Salon 2024 – FESTIWAL MALARSTWA"
-
----
-
-2024 styczeń - Galeria DAP w warszawie – Salon 2024 – FESTIWAL MALARSTWA                                                                                                                                                            

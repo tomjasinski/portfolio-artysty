@@ -5,16 +5,6 @@ import { Image } from 'astro:assets';
 // podmień ścieżkę do zdjęcia profilowego
 import profil from '../assets/obrazy/obraz-23.jpg';
 
-const linkiTeksty = [
-  {
-    label: 'Esej o kolorze',
-    href: '/teksty/esej-o-kolorze',
-  },
-  {
-    label: 'Notatki z pracowni',
-    href: '/teksty/notatki-z-pracowni',
-  },
-];
 ---
 
 <Layout title="Jerzy Jasiński">
@@ -40,7 +30,7 @@ const linkiTeksty = [
         <div class="o-mnie-tekst">
           <h2>O mnie</h2>
           <p>
-            Ukończył Państwowe Liceum Sztuk Plastycznych w Nałęczowie. W latach 1983–1988 studiował na Wydziale Malarstwa w Akademii Sztuk Pięknych w Warszawie. Dyplom otrzymał w roku 1988 w pracowni prof. Rajmunda Ziemskiego. Zajmuje się malarstwem sztalugowym, rysunkiem i technikami ściennymi. Wykonał cykle prac: „W ogrodzie”, „Wypędzeni z raju”, „Próba podziału”, „Obrazy XXI wieku”, „Poszukiwanie muzyki”. Uczestniczył w kilkudziesięciu wystawach indywidualnych i zbiorowych.
+            Ukończył Państwowe Liceum Sztuk Plastycznych w&nbsp;Nałęczowie. W&nbsp;latach 1983–1988 studiował na Wydziale Malarstwa w&nbsp;Akademii Sztuk Pięknych w&nbsp;Warszawie. Dyplom otrzymał w&nbsp;roku 1988 w&nbsp;pracowni prof. Rajmunda Ziemskiego. Zajmuje się malarstwem sztalugowym, rysunkiem i&nbsp;technikami ściennymi. Wykonał cykle prac: „W&nbsp;ogrodzie”, „Wypędzeni z&nbsp;raju”, „Próba podziału”, „Obrazy XXI wieku”, „Poszukiwanie muzyki”. Uczestniczył w&nbsp;kilkudziesięciu wystawach indywidualnych i&nbsp;zbiorowych.
           </p>
 
           <div class="o-mnie-kontakt">
@@ -50,8 +40,13 @@ const linkiTeksty = [
               tel.: <a href="tel:+48697159752">+48 697 159 752</a>
             </p>
             <p>
-              Facebook: <a href="https://www.facebook.com/profile.php?id=100089157185796" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/profile.php?id=100089157185796" target="_blank" rel="noopener noreferrer">
                 Obserwuj mnie na Facebooku
+              </a>
+            </p>
+            <p>
+              <a href="https://pl.wikipedia.org/wiki/Jerzy_Jasi%C5%84ski_(malarz)" target="_blank" rel="noopener noreferrer">
+                Strona na Wikipedii
               </a>
             </p>
           </div>
@@ -154,40 +149,6 @@ const linkiTeksty = [
 
   .o-mnie-kontakt a:hover {
     border-bottom-color: #000;
-  }
-
-  .o-mnie-linki-teksty {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #000;
-  }
-
-  .o-mnie-linki-teksty h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-  }
-
-  .o-mnie-linki-teksty ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .o-mnie-linki-teksty li + li {
-    margin-top: 0.5rem;
-  }
-
-  .o-mnie-linki-teksty a {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    text-decoration: none;
-    color: #000;
-    border-bottom: 1px solid #000;
-    padding-bottom: 2px;
-  }
-
-  .o-mnie-linki-teksty a:hover {
-    opacity: 0.7;
   }
 
   @media (max-width: 640px) {

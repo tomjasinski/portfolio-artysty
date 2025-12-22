@@ -13,15 +13,14 @@ const obrazy = defineCollection({
 });
 
 const wystawy = defineCollection({
-  type: 'content',
-  schema: ({ image }) => z.object({
+  type: 'data',
+  schema: z.object({
     tytul: z.string(),
     rok: z.number(),
     typ: z.enum(['indywidualna', 'zbiorowa']),
-    miniatura: image().optional(),
-    opis: z.string().optional(),
-    zdjecia: z.array(image()).optional(),
-    linki_media: z.array(z.string().url()).optional(),
+    opis: z.string().optional().nullable(),
+    opis_pelny: z.string().optional().nullable(),
+    linki_media: z.array(z.string().url()).optional().nullable(),
   }),
 });
 

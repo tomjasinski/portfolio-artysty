@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 
 const wszystkieWystawy = (await getCollection('wystawy'))
   .sort((a, b) => b.data.rok - a.data.rok);
@@ -14,7 +13,7 @@ const typy = ['indywidualna', 'zbiorowa'];
   <main class="strona-wystaw">
     <header class="strona-header">
       <h1>Wystawy</h1>
-      <p class="opis">Przegląd wystaw indywidualnych i zbiorowych.</p>
+      <p class="opis">Przegląd wystaw indywidualnych i&nbsp;zbiorowych.</p>
     </header>
 
     <div class="filtry">
@@ -34,33 +33,46 @@ const typy = ['indywidualna', 'zbiorowa'];
     <div class="lista-wystaw">
       {wszystkieWystawy.map((wystawa) => (
         <article 
-          class="wystawa-card" 
+          class="wystawa-item" 
           data-rok={wystawa.data.rok}
           data-typ={wystawa.data.typ}
         >
-          <a href={`/wystawy/${wystawa.id}`} class="wystawa-link">
-            {wystawa.data.miniatura && (
-              <div class="wystawa-miniatura">
-                <Image 
-                  src={wystawa.data.miniatura}
-                  alt={wystawa.data.tytul}
-                  width={600}
-                  class="wystawa-img"
-                />
-              </div>
-            )}
+        <div class="wystawa-item-inner">
+          <div class="wystawa-naglowek">
+            <span class="wystawa-meta">
+              {wystawa.data.rok} · {wystawa.data.typ}
+            </span>
+            <h2 class="wystawa-tytul">{wystawa.data.tytul}</h2>
+          </div>
 
-            <div class="wystawa-info">
-              <span class="wystawa-rok">{wystawa.data.rok} · {wystawa.data.typ}</span>
-              <h2 class="wystawa-tytul">{wystawa.data.tytul}</h2>
+          {wystawa.data.opis && (
+            <p class="wystawa-opis-krotki">{wystawa.data.opis}</p>
+          )}
 
-              {wystawa.data.opis && (
-                <p class="wystawa-opis-krotki">{wystawa.data.opis}</p>
-              )}
-
-              <span class="wystawa-czytaj">Czytaj więcej →</span>
+          {wystawa.data.opis_pelny && (
+            <div class="wystawa-opis-pelny">
+              <p>{wystawa.data.opis_pelny}</p>
             </div>
-          </a>
+          )}
+
+          {wystawa.data.linki_media && wystawa.data.linki_media.length > 0 && (
+            <div class="wystawa-linki">
+              <span class="wystawa-linki-label">Relacje medialne:</span>
+              <ul class="wystawa-linki-lista">
+                {wystawa.data.linki_media.map((link) => {
+                  const domain = new URL(link).hostname.replace('www.', '');
+                  return (
+                    <li>
+                      <a href={link} target="_blank" rel="noopener noreferrer">
+                        {domain} →
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+          </div>
         </article>
       ))}
     </div>
@@ -75,8 +87,8 @@ const typy = ['indywidualna', 'zbiorowa'];
     const rok = filtrRok?.value || '';
     const typ = filtrTyp?.value || '';
 
-    document.querySelectorAll('.wystawa-card').forEach((item) => {
-      const el = item as HTMLElement;
+    document.querySelectorAll('.wystawa-item').forEach((item) => {
+      const el = item;
       const pokazRok = !rok || el.dataset.rok === rok;
       const pokazTyp = !typ || el.dataset.typ === typ;
       el.style.display = (pokazRok && pokazTyp) ? 'block' : 'none';
@@ -89,7 +101,7 @@ const typy = ['indywidualna', 'zbiorowa'];
 
 <style>
   .strona-wystaw {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 2rem;
   }
@@ -138,12 +150,54 @@ const typy = ['indywidualna', 'zbiorowa'];
   .lista-wystaw {
     display: flex;
     flex-direction: column;
-    gap: 5rem;
+    gap: 3.5rem;
     padding-bottom: 6rem;
   }
 
+
   .wystawa-card {
     display: block;
+  }
+
+  .wystawa-linki {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    align-items: baseline;
+  }
+
+.wystawa-linki-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.6;
+}
+
+  .wystawa-linki-lista {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.8rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .wystawa-linki-lista a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    text-decoration: none;
+    color: #000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    padding-bottom: 1px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+  }
+
+  .wystawa-linki-lista a:hover {
+    opacity: 1;
+    border-bottom-color: #000;
   }
 
   .wystawa-link {
@@ -154,6 +208,12 @@ const typy = ['indywidualna', 'zbiorowa'];
     color: #000;
     align-items: center;
   }
+
+  .wystawa-item {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
 
   @media (max-width: 768px) {
     .wystawa-link {
@@ -209,12 +269,21 @@ const typy = ['indywidualna', 'zbiorowa'];
   }
 
   .wystawa-opis-krotki {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.7;
+    margin: 0.6rem 0 0.4rem;
+  }
+
+  .wystawa-opis-pelny {
+    margin-top: 0.6rem;
+  }
+
+  .wystawa-opis-pelny p {
+    font-size: 0.9rem;
     line-height: 1.7;
-    margin: 0 0 1.5rem 0;
-    opacity: 0.8;
-    font-weight: 300;
+    opacity: 0.6;
+    white-space: pre-line;
   }
 
   .wystawa-czytaj {
@@ -242,4 +311,11 @@ const typy = ['indywidualna', 'zbiorowa'];
       font-size: 1.5rem;
     }
   }
+
+  @media (min-width: 900px) {
+  .wystawa-item-inner {
+    max-width: 760px;
+    margin: 0 auto; /* lżejsze, trochę bliżej środka */
+  }
+
 </style>

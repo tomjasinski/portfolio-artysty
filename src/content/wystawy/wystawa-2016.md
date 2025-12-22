@@ -1,9 +1,0 @@
----
-tytul: "Galeria Domu Artysty Plastyka w Warszawie"
-rok: 2016
-typ: "zbiorowa"
-opis: "„TRZY WYMIARY- MALARSTWO NA PŁÓTNIE”"
-
----
-
-2016 wrzesień -  Galeria Domu Artysty Plastyka w Warszawie - „TRZY WYMIARY- MALARSTWO NA PŁÓTNIE”                                                                                                                                                                                                                                                                                                                          

@@ -1,9 +1,0 @@
----
-tytul: "Biuro Wystaw Artystycznych w Ciechanowie"
-rok: 1997
-typ: "zbiorowa"
-opis: "Galeria „C” - „Salon Zimowy ‘97”"
-
----
-
-1997 grudzień - Biuro Wystaw Artystycznych w Ciechanowie Galeria „C” - „Salon Zimowy ‘97”                                                    
