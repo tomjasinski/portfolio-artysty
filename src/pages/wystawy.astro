@@ -1,6 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const wszystkieZdjecia = import.meta.glob('../content/wystawy/**/**/*.{jpg,jpeg,png,webp,avif}', { eager: true });
+
+function zdjeciaZFolderu(folder) {
+  if (!folder) return [];
+  const prefix = `../content/wystawy/${folder}/`;
+
+  return Object.entries(wszystkieZdjecia)
+    .filter(([path]) => path.startsWith(prefix))
+    .sort(([a], [b]) => a.localeCompare(b, 'pl'))
+    .map(([, mod]) => mod.default);
+}
 
 const wszystkieWystawy = (await getCollection('wystawy'))
   .sort((a, b) => b.data.rok - a.data.rok);
@@ -55,6 +68,36 @@ const typy = ['indywidualna', 'zbiorowa'];
             </div>
           )}
 
+          {(() => {
+            const zdjecia = (wystawa.data.zdjecia && wystawa.data.zdjecia.length > 0)
+              ? wystawa.data.zdjecia
+              : zdjeciaZFolderu(wystawa.data.folder_zdjec);
+
+            if (!zdjecia || zdjecia.length === 0) return null;
+
+            return (
+              <div class="wystawa-galeria">
+                {zdjecia.map((zdjecie, index) => (
+                  <a
+                    href={zdjecie.src}
+                    class="wystawa-zdjecie"
+                    data-pswp-width={zdjecie.width}
+                    data-pswp-height={zdjecie.height}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Image
+                      src={zdjecie}
+                      alt={`${wystawa.data.tytul} — zdjęcie ${index + 1}`}
+                      width={420}
+                      class="wystawa-zdjecie-img"
+                    />
+                  </a>
+                ))}
+              </div>
+            );
+          })()}
+
           {wystawa.data.linki_media && wystawa.data.linki_media.length > 0 && (
             <div class="wystawa-linki">
               <span class="wystawa-linki-label">Relacje medialne:</span>
@@ -80,6 +123,22 @@ const typy = ['indywidualna', 'zbiorowa'];
 </Layout>
 
 <script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import PhotoSwipe from 'photoswipe';
+  import 'photoswipe/style.css';
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '.wystawa-galeria',
+    children: 'a',
+    pswpModule: PhotoSwipe,
+    showHideAnimationType: 'fade',
+    zoomAnimationDuration: 400,
+    bgOpacity: 0.95,
+    spacing: 0.1,
+  });
+
+  lightbox.init();
+
   const filtrRok = document.getElementById('filtr-rok-wystaw');
   const filtrTyp = document.getElementById('filtr-typ-wystaw');
 
@@ -286,6 +345,34 @@ const typy = ['indywidualna', 'zbiorowa'];
     white-space: pre-line;
   }
 
+  .wystawa-galeria {
+    margin-top: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .wystawa-zdjecie {
+    display: block;
+    cursor: zoom-in;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .wystawa-zdjecie-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    max-height: 200px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .wystawa-zdjecie:hover .wystawa-zdjecie-img {
+    transform: scale(1.03);
+  }
+
   .wystawa-czytaj {
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
@@ -309,6 +396,10 @@ const typy = ['indywidualna', 'zbiorowa'];
     
     .wystawa-tytul {
       font-size: 1.5rem;
+    }
+
+    .wystawa-galeria {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
   }
 
