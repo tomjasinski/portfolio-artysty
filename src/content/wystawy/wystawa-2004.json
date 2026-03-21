@@ -4,5 +4,11 @@
   "typ": "indywidualna",
   "opis": "Mała Galeria Centrum Kultury w Żurominie",
   "opis_pelny": "2004 listopad/grudzień – Mała Galeria Centrum Kultury w Żurominie",
-  "linki_media": null
+  "linki_media": null,
+  "filmy_vimeo": [
+    {
+      "url": "https://vimeo.com/1175806619?share=copy&fl=sv&fe=ci",
+      "tytul": "Film z wernisażu"
+    }
+  ]
 }

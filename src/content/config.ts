@@ -21,6 +21,10 @@ const wystawy = defineCollection({
     opis: z.string().optional().nullable(),
     opis_pelny: z.string().optional().nullable(),
     linki_media: z.array(z.string().url()).optional().nullable(),
+    filmy_vimeo: z.array(z.object({
+      url: z.string().url(),
+      tytul: z.string().optional().nullable(),
+    })).optional().nullable(),
     zdjecia: z.array(image()).optional().nullable(),
     folder_zdjec: z.string().optional().nullable(),
   }),

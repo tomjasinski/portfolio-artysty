@@ -20,6 +20,20 @@ const wszystkieWystawy = (await getCollection('wystawy'))
 
 const lata = [...new Set(wszystkieWystawy.map(w => w.data.rok))].sort().reverse();
 const typy = ['indywidualna', 'zbiorowa'];
+
+function getVimeoEmbedUrl(url) {
+  try {
+    const parsed = new URL(url);
+    const parts = parsed.pathname.split('/').filter(Boolean);
+    const videoId = parts.findLast((part) => /^\d+$/.test(part));
+
+    if (!videoId) return null;
+
+    return `https://player.vimeo.com/video/${videoId}`;
+  } catch {
+    return null;
+  }
+}
 ---
 
 <Layout title="Wystawy">
@@ -97,6 +111,32 @@ const typy = ['indywidualna', 'zbiorowa'];
               </div>
             );
           })()}
+
+          {wystawa.data.filmy_vimeo && wystawa.data.filmy_vimeo.length > 0 && (
+            <div class="wystawa-filmy">
+              {wystawa.data.filmy_vimeo.map((film, index) => {
+                const embedUrl = getVimeoEmbedUrl(film.url);
+                if (!embedUrl) return null;
+
+                const label = film.tytul || `${wystawa.data.tytul} - film ${index + 1}`;
+
+                return (
+                  <section class="wystawa-film">
+                    {film.tytul && <h3 class="wystawa-film-tytul">{film.tytul}</h3>}
+                    <div class="wystawa-film-ratio">
+                      <iframe
+                        src={embedUrl}
+                        title={label}
+                        loading="lazy"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowfullscreen
+                      ></iframe>
+                    </div>
+                  </section>
+                );
+              })}
+            </div>
+          )}
 
           {wystawa.data.linki_media && wystawa.data.linki_media.length > 0 && (
             <div class="wystawa-linki">
@@ -350,6 +390,43 @@ const typy = ['indywidualna', 'zbiorowa'];
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 0.9rem;
+  }
+
+  .wystawa-filmy {
+    margin-top: 1.4rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .wystawa-film {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .wystawa-film-tytul {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .wystawa-film-ratio {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #ece7df;
+    overflow: hidden;
+  }
+
+  .wystawa-film-ratio iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 
   .wystawa-zdjecie {
