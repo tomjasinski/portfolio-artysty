@@ -4,5 +4,11 @@
   "typ": "indywidualna",
   "opis": "Galeria „C”",
   "opis_pelny": "1990 czerwiec - Biuro Wystaw Artystycznych w Ciechanowie",
-  "linki_media": null
+  "linki_media": null,
+  "filmy_vimeo": [
+    {
+      "url": "https://vimeo.com/1175806587?share=copy&fl=sv&fe=ci",
+      "tytul": "Film z wernisażu - Ciechanów - 1990-07"
+    }
+  ]
 }
