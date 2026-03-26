@@ -4,5 +4,19 @@
   "typ": "indywidualna",
   "opis": "Galeria „C”",
   "opis_pelny": "1996 styczeń – Biuro Wystaw Artystycznych w Ciechanowie - Galeria „C”",
-  "linki_media": null
+  "linki_media": null,
+   "filmy_vimeo": [
+    {
+      "url": "https://vimeo.com/1175806553?share=copy&fl=sv&fe=ci",
+      "tytul": "Film z wernisażu"
+    },
+    {
+      "url": "https://vimeo.com/1175806613?share=copy&fl=sv&fe=ci",
+      "tytul": "Relacja telewizyjna"
+    },
+    {
+      "url": "https://vimeo.com/1175806569?share=copy&fl=sv&fe=ci",
+      "tytul": "Film z wernisażu"
+    }
+  ]
 }

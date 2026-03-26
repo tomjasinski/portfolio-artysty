@@ -4,19 +4,5 @@
   "typ": "zbiorowa",
   "opis": "Galeria „C”- wystawa poplenerowa „Łąck 98”",
   "opis_pelny": "1998 grudzień - Biuro Wystaw Artystycznych w Ciechanowie - Galeria „C”- wystawa poplenerowa „Łąck 98”.",
-  "linki_media": null,
-   "filmy_vimeo": [
-    {
-      "url": "https://vimeo.com/1175806553?share=copy&fl=sv&fe=ci",
-      "tytul": "Film z wernisażu"
-    },
-    {
-      "url": "https://vimeo.com/1175806613?share=copy&fl=sv&fe=ci",
-      "tytul": "Relacja telewizyjna"
-    },
-    {
-      "url": "https://vimeo.com/1175806569?share=copy&fl=sv&fe=ci",
-      "tytul": "Film z wernisażu"
-    }
-  ]
+  "linki_media": null
 }
