@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
+import { Vimeo } from '@astro-community/astro-embed-vimeo';
 
 const wszystkieZdjecia = import.meta.glob('../content/wystawy/**/**/*.{jpg,jpeg,png,webp,avif}', { eager: true });
 
@@ -21,19 +22,6 @@ const wszystkieWystawy = (await getCollection('wystawy'))
 const lata = [...new Set(wszystkieWystawy.map(w => w.data.rok))].sort().reverse();
 const typy = ['indywidualna', 'zbiorowa'];
 
-function getVimeoEmbedUrl(url) {
-  try {
-    const parsed = new URL(url);
-    const parts = parsed.pathname.split('/').filter(Boolean);
-    const videoId = parts.findLast((part) => /^\d+$/.test(part));
-
-    if (!videoId) return null;
-
-    return `https://player.vimeo.com/video/${videoId}`;
-  } catch {
-    return null;
-  }
-}
 ---
 
 <Layout title="Wystawy">
@@ -115,9 +103,6 @@ function getVimeoEmbedUrl(url) {
           {wystawa.data.filmy_vimeo && wystawa.data.filmy_vimeo.length > 0 && (
             <div class="wystawa-filmy">
               {wystawa.data.filmy_vimeo.map((film, index) => {
-                const embedUrl = getVimeoEmbedUrl(film.url);
-                if (!embedUrl) return null;
-
                 const label = film.tytul || `${wystawa.data.tytul} - film ${index + 1}`;
 
                 return (
@@ -128,15 +113,7 @@ function getVimeoEmbedUrl(url) {
                       <span class="wystawa-film-ornament" aria-hidden="true"></span>
                     </div>
                     <div class="wystawa-film-rama">
-                      <div class="wystawa-film-ratio">
-                        <iframe
-                          src={embedUrl}
-                          title={label}
-                          loading="lazy"
-                          allow="autoplay; fullscreen; picture-in-picture"
-                          allowfullscreen
-                        ></iframe>
-                      </div>
+                      <Vimeo id={film.url} title={label} class="wystawa-film-ratio" />
                     </div>
                   </section>
                 );
@@ -436,22 +413,9 @@ function getVimeoEmbedUrl(url) {
     padding: 0;
   }
 
-  .wystawa-film-ratio {
-    position: relative;
+  :global(.wystawa-film-ratio) {
     width: 100%;
     aspect-ratio: 16 / 9;
-    overflow: hidden;
-    line-height: 0;
-    background: #fff;
-  }
-
-  .wystawa-film-ratio iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
   }
 
   .wystawa-zdjecie {

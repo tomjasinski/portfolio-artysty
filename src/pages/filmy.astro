@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Vimeo } from '@astro-community/astro-embed-vimeo';
+
+const wszystkieWystawy = (await getCollection('wystawy'))
+  .sort((a, b) => b.data.rok - a.data.rok);
+
+const filmyZWystaw = wszystkieWystawy.flatMap((wystawa) =>
+  (wystawa.data.filmy_vimeo ?? []).map((film, index) => ({
+    wystawa,
+    film,
+    index,
+  }))
+);
+---
+
+<Layout title="Filmy">
+  <main class="strona-filmow">
+    <header class="strona-header">
+      <h1>Filmy</h1>
+      <p class="opis">Biblioteka nagrań</p>
+    </header>
+
+    <div class="lista-filmow">
+      {filmyZWystaw.map(({ wystawa, film, index }) => {
+        const tytulFilmu = film.tytul || `${wystawa.data.tytul} - film ${index + 1}`;
+        const opisWystawy = wystawa.data.opis_pelny || wystawa.data.opis || 'Brak opisu wystawy.';
+
+        return (
+          <article class="film-item">
+            <div class="film-copy">
+              <span class="film-meta">
+                {wystawa.data.rok} · {wystawa.data.typ}
+              </span>
+              <h2 class="film-tytul">{tytulFilmu}</h2>
+              <p class="film-wystawa">Wystawa: {wystawa.data.tytul}</p>
+              <p class="film-opis">{opisWystawy}</p>
+            </div>
+
+            <div class="film-rama">
+              <Vimeo id={film.url} title={tytulFilmu} class="film-embed" />
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .strona-filmow {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  .strona-header {
+    text-align: center;
+    padding: 6rem 0 3rem;
+  }
+
+  .opis {
+    font-size: 1.125rem;
+    opacity: 0.6;
+    font-weight: 300;
+  }
+
+  .lista-filmow {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .film-item {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 2rem;
+    align-items: start;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .film-copy {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .film-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .film-tytul {
+    margin: 0;
+    border: 0;
+    display: block;
+    font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+  }
+
+  .film-wystawa {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .film-opis {
+    opacity: 0.7;
+    white-space: pre-line;
+  }
+
+  .film-rama {
+    width: 100%;
+  }
+
+  :global(.film-embed) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  @media (max-width: 900px) {
+    .film-item {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .strona-header {
+      padding: 4rem 0 2rem;
+    }
+  }
+</style>
