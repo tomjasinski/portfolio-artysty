@@ -2,7 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="O mnie – Imię Nazwisko">
+<Layout
+  title="O mnie - biografia"
+  description="Biografia Jerzego Jasińskiego: edukacja artystyczna, inspiracje, język malarski, cykle obrazów oraz autorska wypowiedź o naturze i rytmie w malarstwie."
+>
   <main class="o-mnie-page">
     <section class="o-mnie-cytat">
       <header class="o-mnie-header">
@@ -54,7 +57,7 @@ import Layout from '../layouts/Layout.astro';
   .o-mnie-lead {
     font-family: 'Inter', sans-serif;
     font-size: 1.05rem;
-    opacity: 0.7;
+    color: var(--muted-text);
     max-width: 520px;
     margin: 0 auto;
   }
@@ -81,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
     font-size: 0.9rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    opacity: 0.6;
+    color: var(--muted-text);
   }
 
   .o-mnie-dopelnienie {
@@ -93,7 +96,7 @@ import Layout from '../layouts/Layout.astro';
     font-family: 'Inter', sans-serif;
     font-size: 1.02rem;
     line-height: 1.8;
-    opacity: 0.85;
+    color: var(--muted-text);
   }
 
   @media (max-width: 640px) {

@@ -24,7 +24,10 @@ const typy = ['indywidualna', 'zbiorowa'];
 
 ---
 
-<Layout title="Wystawy">
+<Layout
+  title="Wystawy"
+  description="Wystawy Jerzego Jasińskiego: chronologiczny przegląd ekspozycji indywidualnych i zbiorowych, dokumentacja fotograficzna, filmy oraz relacje medialne."
+>
   <main class="strona-wystaw">
     <header class="strona-header">
       <h1>Wystawy</h1>
@@ -200,8 +203,8 @@ const typy = ['indywidualna', 'zbiorowa'];
 
   .opis {
     font-size: 1.125rem;
-    opacity: 0.6;
-    font-weight: 300;
+    color: var(--muted-text);
+    font-weight: 400;
   }
 
   /* === FILTRY === */
@@ -254,7 +257,7 @@ const typy = ['indywidualna', 'zbiorowa'];
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  opacity: 0.6;
+  color: var(--muted-text);
 }
 
   .wystawa-linki-lista {
@@ -273,12 +276,11 @@ const typy = ['indywidualna', 'zbiorowa'];
     color: #000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     padding-bottom: 1px;
-    opacity: 0.8;
-    transition: opacity 0.2s ease, border-color 0.2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
   }
 
   .wystawa-linki-lista a:hover {
-    opacity: 1;
+    color: #000;
     border-bottom-color: #000;
   }
 
@@ -335,7 +337,7 @@ const typy = ['indywidualna', 'zbiorowa'];
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    opacity: 0.5;
+    color: var(--muted-text);
     margin-bottom: 1rem;
   }
 
@@ -353,7 +355,7 @@ const typy = ['indywidualna', 'zbiorowa'];
   .wystawa-opis-krotki {
     font-size: 0.95rem;
     line-height: 1.6;
-    opacity: 0.7;
+    color: var(--muted-text);
     margin: 0.6rem 0 0.4rem;
   }
 
@@ -364,7 +366,7 @@ const typy = ['indywidualna', 'zbiorowa'];
   .wystawa-opis-pelny p {
     font-size: 0.9rem;
     line-height: 1.7;
-    opacity: 0.6;
+    color: var(--muted-text);
     white-space: pre-line;
   }
 
@@ -444,11 +446,11 @@ const typy = ['indywidualna', 'zbiorowa'];
     font-size: 0.9rem;
     font-weight: 500;
     letter-spacing: 0.05em;
-    transition: opacity 0.3s ease;
+    transition: color 0.3s ease;
   }
 
   .wystawa-link:hover .wystawa-czytaj {
-    opacity: 0.6;
+    color: var(--muted-text);
   }
 
   @media (max-width: 640px) {

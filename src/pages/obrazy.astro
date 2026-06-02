@@ -17,7 +17,10 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
 }));
 ---
 
-<Layout title="Obrazy - Galeria">
+<Layout
+  title="Obrazy - galeria malarstwa"
+  description="Galeria obrazów Jerzego Jasińskiego: prace abstrakcyjne na płótnie, cykle malarskie, techniki, wymiary oraz lata powstania obrazów."
+>
   <main class="strona-obrazow">
     <header class="strona-header">
       <h1>Galeria obrazów</h1>
@@ -142,8 +145,8 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
 
   .opis {
     font-size: 1.125rem;
-    opacity: 0.6;
-    font-weight: 300;
+    color: var(--muted-text);
+    font-weight: 400;
   }
 
   /* === FILTRY === */
@@ -258,8 +261,8 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
     font-family: 'Inter', sans-serif;
     font-size: 0.875rem;
     margin: 0;
-    opacity: 0.65;
-    font-weight: 300;
+    color: var(--muted-text);
+    font-weight: 400;
   }
 
   /* === PHOTOSWIPE CUSTOM === */

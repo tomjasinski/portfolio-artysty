@@ -7,7 +7,10 @@ import profil from '../assets/obrazy/obraz-23.jpg';
 
 ---
 
-<Layout title="Jerzy Jasiński">
+<Layout
+  title="Jerzy Jasiński"
+  description="Oficjalne portfolio Jerzego Jasińskiego, malarza z Mazowsza: obrazy abstrakcyjne, cykle malarskie, wystawy, filmy oraz kontakt do artysty."
+>
   <main class="home">
     <section class="intro">
       <p class="intro-tagline">Malarstwo abstrakcyjne · Obrazy na płótnie</p>
@@ -24,6 +27,11 @@ import profil from '../assets/obrazy/obraz-23.jpg';
             src={profil}
             alt="Jerzy Jasiński – portret"
             width={520}
+            height={635}
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
+            sizes="(max-width: 900px) calc(100vw - 3rem), 520px"
             class="o-mnie-img"
           />
         </div>
@@ -73,7 +81,7 @@ import profil from '../assets/obrazy/obraz-23.jpg';
     font-size: 0.9rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    opacity: 0.6;
+    color: var(--muted-text);
     margin-bottom: 1rem;
   }
 
@@ -86,7 +94,7 @@ import profil from '../assets/obrazy/obraz-23.jpg';
     max-width: 560px;
     font-size: 1.15rem;
     line-height: 1.7;
-    opacity: 0.75;
+    color: var(--muted-text);
   }
 
   /* === O MNIE === */

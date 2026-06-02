@@ -1,9 +1,16 @@
 ---
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = 'Jerzy Jasiński - malarz z Mazowsza. Portfolio obrazów abstrakcyjnych, wystawy, filmy oraz informacje kontaktowe artysty.',
+} = Astro.props;
+
+const siteTitle = title === 'Jerzy Jasiński' ? title : `${title} | Jerzy Jasiński`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://jerzyjasinski.pl').toString();
 ---
 
 <!DOCTYPE html>
@@ -11,13 +18,38 @@ const { title } = Astro.props;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
+  <title>{siteTitle}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonicalUrl}>
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:site_name" content="Jerzy Jasiński">
+  <meta property="og:title" content={siteTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonicalUrl}>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={siteTitle}>
+  <meta name="twitter:description" content={description}>
   <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  </noscript>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Jerzy Jasiński',
+    jobTitle: 'Malarz',
+    url: 'https://jerzyjasinski.pl/',
+    sameAs: [
+      'https://pl.wikipedia.org/wiki/Jerzy_Jasi%C5%84ski_(malarz)',
+      'https://www.facebook.com/profile.php?id=100089157185796',
+    ],
+  })} />
 </head>
 <body>
   <nav class="nawigacja">
@@ -47,7 +79,9 @@ const { title } = Astro.props;
   }
 
   body {
-    font-family: 'Inter', -apple-system, sans-serif;
+    --muted-text: #4a4a4a;
+    --soft-surface: #F5F3F0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: #FDFCFA; /* złamana biel */
     color: #000000;
     line-height: 1.7;
@@ -78,7 +112,7 @@ const { title } = Astro.props;
   p {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   /* === NAWIGACJA === */
@@ -112,11 +146,11 @@ const { title } = Astro.props;
     color: #000;
     font-weight: 400;
     position: relative;
-    transition: opacity 0.3s ease;
+    transition: color 0.3s ease;
   }
 
   .menu a:hover {
-    opacity: 0.6;
+    color: var(--muted-text);
   }
 
   /* === STOPKA === */
@@ -127,7 +161,7 @@ const { title } = Astro.props;
     border-top: 1px solid #000;
     font-family: 'Inter', sans-serif;
     font-size: 0.875rem;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   /* === RESPONSYWNOŚĆ === */
