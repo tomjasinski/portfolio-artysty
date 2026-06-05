@@ -161,20 +161,20 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     padding: 0.875rem 2rem;
-    border: 1px solid #000;
-    background: #FDFCFA;
-    color: #000;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
     cursor: pointer;
     transition: all 0.3s ease;
     letter-spacing: 0.02em;
   }
 
   .filtr-select:hover {
-    background: #F5F3F0;
+    background: var(--hover-bg);
   }
 
   .filtr-select:focus {
-    outline: 2px solid #000;
+    outline: 2px solid var(--border);
     outline-offset: 2px;
   }
 
@@ -220,7 +220,7 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
   .galeria-item {
     display: block;
     text-decoration: none;
-    color: #000;
+    color: var(--text);
     cursor: zoom-in;
   }
 
@@ -246,7 +246,7 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
   /* === META === */
   .obraz-meta {
     padding-top: 1rem;
-    border-top: 1px solid #000;
+    border-top: 1px solid var(--border);
   }
 
   .obraz-tytul {

@@ -219,16 +219,16 @@ const typy = ['indywidualna', 'zbiorowa'];
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     padding: 0.875rem 2rem;
-    border: 1px solid #000;
-    background: #FDFCFA;
-    color: #000;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
     cursor: pointer;
     transition: all 0.3s ease;
     letter-spacing: 0.02em;
   }
 
   .filtr-select:hover {
-    background: #F5F3F0;
+    background: var(--hover-bg);
   }
 
   /* === LISTA WYSTAW === */
@@ -273,15 +273,15 @@ const typy = ['indywidualna', 'zbiorowa'];
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     text-decoration: none;
-    color: #000;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    color: var(--text);
+    border-bottom: 1px solid var(--linki-border);
     padding-bottom: 1px;
     transition: color 0.2s ease, border-color 0.2s ease;
   }
 
   .wystawa-linki-lista a:hover {
-    color: #000;
-    border-bottom-color: #000;
+    color: var(--text);
+    border-bottom-color: var(--text);
   }
 
   .wystawa-link {
@@ -289,13 +289,13 @@ const typy = ['indywidualna', 'zbiorowa'];
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     text-decoration: none;
-    color: #000;
+    color: var(--text);
     align-items: center;
   }
 
   .wystawa-item {
     padding: 2rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid var(--border-soft);
   }
 
 
@@ -408,7 +408,7 @@ const typy = ['indywidualna', 'zbiorowa'];
   .wystawa-film-ornament {
     display: block;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(85, 61, 37, 0.35) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, var(--film-ornament) 50%, transparent 100%);
   }
 
   .wystawa-film-rama {
