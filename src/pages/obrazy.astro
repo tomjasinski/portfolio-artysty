@@ -178,31 +178,28 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
     outline-offset: 2px;
   }
 
-  /* === GALERIA === */
+  /* === GALERIA MASONRY (waterfall) === */
   .galeria-obrazow {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4rem 3rem;
+    column-count: 4;
+    column-gap: 1.5rem;
     padding-bottom: 6rem;
   }
 
   @media (max-width: 1400px) {
     .galeria-obrazow {
-      grid-template-columns: repeat(3, 1fr);
+      column-count: 3;
     }
   }
 
   @media (max-width: 1024px) {
     .galeria-obrazow {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3rem 2rem;
+      column-count: 2;
     }
   }
 
   @media (max-width: 640px) {
     .galeria-obrazow {
-      grid-template-columns: 1fr;
-      gap: 3rem;
+      column-count: 1;
     }
     
     .strona-header {
@@ -218,23 +215,22 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
 
   /* === ITEM === */
   .galeria-item {
-    display: block;
+    break-inside: avoid;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 1.5rem;
     text-decoration: none;
     color: var(--text);
     cursor: zoom-in;
   }
 
   .obraz-wrapper {
-    position: relative;
     overflow: hidden;
-    margin-bottom: 1.25rem;
   }
 
   .galeria-img {
     width: 100%;
     height: auto;
-    aspect-ratio: 4/3;
-    object-fit: cover;
     display: block;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
