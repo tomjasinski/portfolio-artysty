@@ -15,6 +15,23 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
   height: obraz.data.obraz.height,
   src: obraz.data.obraz.src,
 }));
+
+// Schema.org VisualArtwork dla każdego obrazu
+const siteUrl = 'https://jerzyjasinski.pl';
+const obrazyJsonLd = obrazyData.map(obraz => ({
+  '@type': 'VisualArtwork',
+  name: obraz.tytul,
+  creator: { '@type': 'Person', name: 'Jerzy Jasiński' },
+  artMedium: obraz.technika,
+  artworkSurface: 'płótno',
+  artform: 'Malarstwo',
+  genre: 'Abstrakcjonizm',
+  dateCreated: String(obraz.rok),
+  image: `${siteUrl}${obraz.src}`,
+  width: obraz.width,
+  height: obraz.height,
+  url: `${siteUrl}/obrazy#${obraz.id}`,
+}));
 ---
 
 <Layout
@@ -66,6 +83,8 @@ const obrazyData = wszystkieObrazy.map(obraz => ({
         </a>
       ))}
     </div>
+
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': obrazyJsonLd })} />
   </main>
 </Layout>
 
